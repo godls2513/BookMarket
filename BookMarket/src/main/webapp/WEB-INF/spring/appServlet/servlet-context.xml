@@ -10,7 +10,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven enable-matrix-variables="true"/>
+	<annotation-driven enable-matrix-variables="true" validator="validator"/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -23,6 +23,38 @@
 	
 	<context:component-scan base-package="com.springmvc.*" />
 	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="10240000"/>
+    </beans:bean>
+    
+    <interceptors>
+    	<beans:bean class="com.springmvc.interceptor.MonitoringInterceptor"/>
+    	<beans:bean class="com.springmvc.interceptor.AuditingInterceptor"/>
+    	<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+    		<beans:property name="paramName" value="language"></beans:property>
+    	</beans:bean>
+    </interceptors>
+    
+    <beans:bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+    	<beans:property name="defaultLocale" value="ko"/>
+    </beans:bean>
 	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<beans:property name="basename" value="messages"></beans:property>
+		<beans:property name="defaultEncoding" value="UTF-8"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<beans:property name="validationMessageSource" ref="messageSource" />
+	</beans:bean>
+	
+	<beans:bean id="unitsInStockValidator" class="com.springmvc.validator.UnitsInStockValidator"/>
+	<beans:bean id="bookValidator" class="com.springmvc.validator.BookValidator">
+		<beans:property name="springValidators">
+			<beans:set>
+				<beans:ref bean="unitsInStockValidator"/>
+			</beans:set>
+		</beans:property>
+	</beans:bean>
 	
 </beans:beans>

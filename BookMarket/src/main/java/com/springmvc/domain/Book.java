@@ -1,8 +1,26 @@
 package com.springmvc.domain;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.springmvc.validator.BookId;
+
 public class Book {
+	@BookId
+	@Pattern(regexp = "ISBN[1-9]+", message="{Pattern.NewBook.bookId}")
 	private String bookId;		// 도서ID
+	
+	@Size(min = 4, max = 50, message="{Size.NewBook.name}")
 	private String name; 		// 도서명
+	
+	@Min(value = 0, message="{Min.NewBook.unitPrice}")
+	@Digits(integer=8, fraction=2, message="{Digits.NewBook.unitPrice}")
+	@NotNull(message="{NotNull.NewBook.unitPrice}")
 	private int unitPrice;		// 가격
 	private String author;		// 저자
 	private String description; // 설명
@@ -11,6 +29,7 @@ public class Book {
 	private long unitsInStock;	// 재고 수
 	private String releaseDate;	// 출판일(월/년)
 	private String condition;	// 신규 도서 또는 중고 도서 또는 전자책
+	private MultipartFile bookImage; // 도서이미지
 	
 	public Book() {
 		super();
@@ -102,4 +121,13 @@ public class Book {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+
+	public MultipartFile getBookImage() {
+		return bookImage;
+	}
+
+	public void setBookImage(MultipartFile bookImage) {
+		this.bookImage = bookImage;
+	}
+	
 }

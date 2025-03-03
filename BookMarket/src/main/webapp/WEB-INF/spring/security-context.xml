@@ -7,21 +7,25 @@
                http://www.springframework.org/schema/beans/spring-beans.xsd
                http://www.springframework.org/schema/security
                http://www.springframework.org/schema/security/spring-security.xsd">
+
 					
 <http use-expressions="true">
 	<intercept-url pattern="/books/add"
-				   access="hasAuthority('ROLE_ADMIN')"/>
-	<form-login/>
+				   access="hasAuthority('ROLE_ADMIN')"/> 
+	<form-login login-page="/login"
+				default-target-url="/books/add"
+				authentication-failure-url="/loginfailed"
+				username-parameter="username"
+				password-parameter="password"/>
 	<csrf/>
-	<logout/>			   
+	<logout logout-success-url="/logout"/>			   
 </http>
-
-<authentication-manager>
-	<authentication-provider>
-		<user-service>
-		<user name="Admin" password="{noop}Admin1234"  authorities="ROLE_ADMIN"/>
-		</user-service>
-	</authentication-provider>
-</authentication-manager>
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+			<user name="Admin" password="{noop}Admin1234"  authorities="ROLE_ADMIN"/> 
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
 
 </beans:beans>
