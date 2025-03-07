@@ -1,5 +1,7 @@
 package com.springmvc.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -10,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.springmvc.validator.BookId;
 
-public class Book {
+@SuppressWarnings("serial") // serialVersionUID 대신에 사용할 수 있다.
+public class Book implements Serializable{
+//	private static final long serialVersionUID = -7715651009026349175L; 
 	@BookId
 	@Pattern(regexp = "ISBN[1-9]+", message="{Pattern.NewBook.bookId}")
 	private String bookId;		// 도서ID
@@ -30,6 +34,8 @@ public class Book {
 	private String releaseDate;	// 출판일(월/년)
 	private String condition;	// 신규 도서 또는 중고 도서 또는 전자책
 	private MultipartFile bookImage; // 도서이미지
+	private String fileName; 	// 도서이미지 파일이름
+	
 	
 	public Book() {
 		super();
@@ -129,5 +135,12 @@ public class Book {
 	public void setBookImage(MultipartFile bookImage) {
 		this.bookImage = bookImage;
 	}
-	
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 }

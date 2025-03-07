@@ -8,7 +8,7 @@
 <title>Welcome</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand navbar-dark bg-dark">
+	<%-- <nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="nav-header">
 				<a class="nav-brand" href="./home">Home</a>
@@ -20,7 +20,7 @@
 		<div class="container">
 		<h1 class="display-3">${greeting }</h1>
 		</div>
-	</div>
+	</div> --%>
 	
 	<div class="container">
 		<div class="text-center">
@@ -28,9 +28,9 @@
 		</div>
 	</div>
 	
-	<footer class="container">
+	<!-- footer class="container">
 		<hr>
 		<p>&copy; WebMarket</p>
-	</footer>
+	</footer> -->
 </body>
 </html>
